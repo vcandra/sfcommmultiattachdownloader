@@ -1,0 +1,64 @@
+<apex:page controller="AttachmentsController">
+    <apex:includeScript value="/soap/ajax/39.0/connection.js"/>
+    <apex:includeScript value="/soap/ajax/39.0/apex.js"/>
+    <apex:includescript value="//code.jquery.com/jquery-1.11.1.min.js" />
+    <apex:includeScript value="{!URLFOR($Resource.jszip, 'dist/jszip.js')}"/>
+    
+    
+    <script type="text/javascript">
+        var j$ = jQuery.noConflict();
+        var parentId = '{!parentId}';
+        var zipFile = new JSZip();
+        var jsAtt;
+        //Invokes apex method to get attachments
+    	Visualforce.remoting.timeout = 120000;
+        j$(document).ready(function() {
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.AttachmentsController.getAttachments}',
+                parentId,
+                function(result,event) {
+                    if(event.status){
+                        jsAtt = result;
+                        j$.each(jsAtt, function(key,value) {
+                            compressFile(zipFile, value.attName, value.attEncodedBody);
+                        });
+                        downloadZip(zipFile);
+                    } else if (event.type === 'exception') {
+                        document.getElementById("responseErrors").innerHTML =
+                            event.message + "<br/>";
+                    } else {
+                        document.getElementById("responseErrors").innerHTML = event.message;
+                    }
+                });
+        });
+        
+        function compressFile(zipFile, name, data) {
+            zipFile.file(name, data, {base64:true});
+        }
+        function downloadZip(zipFile){
+            zipFile.generateAsync({type:"base64"})
+            .then(function (content) {
+                console.log('Entering filesaver');
+ 				saveData(content, 'Attachments.zip');
+                //location.href="data:application/zip;base64,"+content;
+                setTimeout(window.close,4000);//After 4 seconds close the window
+			});
+        }
+    var saveData = (function () {
+        var a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = "display: none";
+        return function (data, fileName) {
+            var json = JSON.stringify(data),
+                blob = new Blob([json], {type: "base64"}),
+                url = window.URL.createObjectURL(blob);
+            a.href = url;
+            a.download = fileName;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        };
+    }());
+    </script>
+    <div id="responseErrors"><b>Downloading of attachments is initiated...</b><br/><br/>
+    Depending on the attachments size and attachments it might take time</div>
+</apex:page>
