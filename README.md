@@ -5,7 +5,7 @@ I worked on a community where community and guest users were able to download at
 
 ###Installation
 Click here to install: 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/vcandra/sfcommmultiattachdownloader/tree/master)
+https://githubsfdeploy.herokuapp.com/?owner=vcandra&repo=sfcommmultiattachdownloader
 
 
 jszip is required to be copied into your static resources.
