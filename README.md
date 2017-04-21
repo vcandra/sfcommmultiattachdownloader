@@ -5,7 +5,11 @@ I worked on a community where community and guest users were able to download at
 
 ###Installation
 Click here to install: 
-https://githubsfdeploy.herokuapp.com/?owner=vcandra&repo=sfcommmultiattachdownloader
+<a href="https://githubsfdeploy.herokuapp.com/?owner=vcandra&repo=sfcommmultiattachdownloader">
+  <img alt="Deploy to Salesforce"
+       src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
+</a>
+
 
 
 jszip is required to be copied into your static resources.
