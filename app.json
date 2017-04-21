@@ -1,6 +1,6 @@
 {
-  "name": "communities attachment downloader",
-  "description": "SF Communities multiple attachments downloader",
+  "name": "sfcommunitiesattachmentdownloader",
+  "description": "SF Communities attachments downloader",
   "repository": "https://github.com/vcandra/sfcommmultiattachdownloader",
   "keywords": ["apex", "heroku", "communities", "attachments"]
 }
